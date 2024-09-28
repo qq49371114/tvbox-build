@@ -10,6 +10,7 @@ import time
 import requests
 
 import urllib3
+from security import safe_requests
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
@@ -62,7 +63,7 @@ def login_by_cookie():
         logger.error('请指定 Cookie 中 phpdisk_info 的值！')
     if cookie['ylogin'] is None:
         logger.error('ERROR: 请指定 Cookie 中 ylogin 的值！')
-    res = requests.get(url_account, headers=headers, cookies=cookie, verify=False)
+    res = safe_requests.get(url_account, headers=headers, cookies=cookie, verify=False)
     if '网盘用户登录' in res.text:
         logger.error('ERROR: 登录失败,请更新Cookie')
     else:
