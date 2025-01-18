@@ -62,7 +62,7 @@ def login_by_cookie():
         logger.error('请指定 Cookie 中 phpdisk_info 的值！')
     if cookie['ylogin'] is None:
         logger.error('ERROR: 请指定 Cookie 中 ylogin 的值！')
-    res = requests.get(url_account, headers=headers, cookies=cookie, verify=False)
+    res = requests.get(url_account, headers=headers, cookies=cookie, verify=True)
     if '网盘用户登录' in res.text:
         logger.error('ERROR: 登录失败,请更新Cookie')
     else:
@@ -75,7 +75,7 @@ def set_desc(fid, desc):
     post_data = {'task': 11, 'file_id': fid, 'desc': desc}
     try:
         response = requests.post('https://pc.woozooo.com/doupload.php',
-                                 data=post_data, headers=headers, cookies=cookie, verify=False)
+                                 data=post_data, headers=headers, cookies=cookie, verify=True)
         res = response.json()
         logger.info(f"文件描述设置结果 -> {res['info']}")
     except Exception as e:
@@ -103,7 +103,7 @@ def upload_file(file_dir, folder_id, description):
     files = {'upload_file': (file_name, open(file_dir, "rb"), 'application/octet-stream')}
 
     response = requests.post(upload_url, data=post_data, files=files,
-                             headers=headers, cookies=cookie, verify=False, timeout=3600)
+                             headers=headers, cookies=cookie, verify=True, timeout=3600)
     res = response.json()
     logger.info(f"{file_dir} -> {res['info']}")
     if res['zt'] == 1:
